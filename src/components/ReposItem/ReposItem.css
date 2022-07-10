@@ -1,0 +1,7 @@
+.nameLink {
+    color: #025aff;
+}
+
+.nameLink:hover {
+    text-decoration: none;
+}

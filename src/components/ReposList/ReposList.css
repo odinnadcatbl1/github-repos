@@ -1,0 +1,17 @@
+.tableContainer {
+    margin-top: 50px;
+}
+
+.rowTitle {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.reposTitle {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 50px;
+    text-align: center;
+    color: red;
+
+}

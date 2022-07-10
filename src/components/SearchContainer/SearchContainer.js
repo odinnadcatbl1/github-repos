@@ -5,41 +5,62 @@ import getRepos from '../../services/github-service';
 
 import './SearchContainer.css';
 
-const SearchForm = () => {
+const SearchContainer = () => {
 
     const [inputValue, setInputValue] = useState('');
-    
+
+    const [error, setError] = useState(false);
+
+    const [repos, setRepos] = useState('');
+
     const onInputChange = (e) => {
         setInputValue(e.target.value);
     };
 
-    const onSearchRepos = () => {
-        getRepos(inputValue)
+    const onSearchRepos = (e) => {
+
+        e.preventDefault();
+
+        if (inputValue) {
+            getRepos(inputValue)
             .then((data) => {
-                console.log(data);
+                setRepos(data);
+                setError(false);
             })
+            .catch(() => {
+                setError(true);
+                setRepos('');
+            })
+        } else { 
+            setRepos('');
+            setError(true);
+        }
     }
 
     return (
-        <form className='searchForm'>
-            <TextField 
-            className='searchFormInput'
-            color='info'
-            label={'User name..'}
-            value={inputValue}
-            onChange={onInputChange} 
-            style={{width: '75%'}}/>
 
-            <Button 
-            className='searchButton'
-            onClick={onSearchRepos}
-            color="info"
-            variant='outlined'>
-                Search
-            </Button>
-        </form>
+            <div className='searchContainer'>
+                <form onSubmit={onSearchRepos} className='searchForm'>
+                    <TextField 
+                    className='searchFormInput'
+                    color='info'
+                    label={'User name..'}
+                    onChange={onInputChange} 
+                    value={inputValue}
+                    style={{width: '75%'}}/>
+
+                    <Button 
+                    className='searchButton'
+                    onClick={onSearchRepos}
+                    color="info"
+                    variant='outlined'>
+                        Search
+                    </Button>
+                </form>
+                <ReposList repos={repos} error={error}/>
+            </div>      
     );
 
 };
 
-export default SearchForm;
+export default SearchContainer;
